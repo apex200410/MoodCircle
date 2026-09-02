@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Home() {
   const [image, setImage] = useState(null);
@@ -11,7 +13,7 @@ function Home() {
   const navigate = useNavigate();
 
   // Get user's posts
-  const fetchMyPosts = async () => {
+  const fetchMyPosts = useCallback(async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -20,15 +22,12 @@ function Home() {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/posts/my-posts",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/api/posts/my-posts`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const data = await response.json();
 
@@ -44,12 +43,12 @@ function Home() {
     } finally {
       setLoadingPosts(false);
     }
-  };
+  }, [navigate]);
 
   // Fetch posts when Home opens
   useEffect(() => {
     fetchMyPosts();
-  }, []);
+  }, [fetchMyPosts]);
 
   // Handle image selection
   const handleImageChange = (e) => {
@@ -90,16 +89,13 @@ function Home() {
     try {
       setUploading(true);
 
-      const response = await fetch(
-        "http://localhost:5000/api/posts",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      const response = await fetch(`${API_URL}/api/posts`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
       const data = await response.json();
 
@@ -141,9 +137,7 @@ function Home() {
       <p>Share your moment</p>
 
       {/* Logout */}
-      <button onClick={handleLogout}>
-        Logout
-      </button>
+      <button onClick={handleLogout}>Logout</button>
 
       <br />
       <br />
@@ -202,45 +196,7 @@ function Home() {
         <p>You haven't uploaded anything yet.</p>
       ) : (
         <div>
-{posts.map((post) => (
-  <div key={post._id}>
-    <img
-      src={post.imageUrl}
-      alt="MoodCircle post"
-      width="300"
-    />
-
-    <p>{post.note}</p>
-
-    <small>
-      {new Date(post.createdAt).toLocaleString()}
-    </small>
-
-    <br />
-    <br />
-
-    <button
-      onClick={() => {
-        const publicLink =
-          `${window.location.origin}/view/${post.publicId}`;
-
-        navigator.clipboard
-          .writeText(publicLink)
-          .then(() => {
-            alert("Public link copied!");
-          })
-          .catch(() => {
-            alert("Failed to copy link.");
-          });
-      }}
-    >
-      Copy Link
-    </button>
-
-    <hr />
-  </div>
-))}
- {posts.map((post) => (
+          {posts.map((post) => (
             <div key={post._id}>
               <img
                 src={post.imageUrl}
@@ -253,6 +209,26 @@ function Home() {
               <small>
                 {new Date(post.createdAt).toLocaleString()}
               </small>
+
+              <br />
+              <br />
+
+              <button
+                onClick={() => {
+                  const publicLink = `${window.location.origin}/view/${post.publicId}`;
+
+                  navigator.clipboard
+                    .writeText(publicLink)
+                    .then(() => {
+                      alert("Public link copied!");
+                    })
+                    .catch(() => {
+                      alert("Failed to copy link.");
+                    });
+                }}
+              >
+                Copy Link
+              </button>
 
               <hr />
             </div>
