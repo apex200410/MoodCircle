@@ -44,3 +44,9 @@ jobs:
       - name: Build frontend
         working-directory: client
         run: npm run build
+
+      - name: Build backend Docker image
+        run: docker build -t moodcircle-server:latest ./server
+
+      - name: Build frontend Docker image
+        run: docker build --build-arg VITE_API_URL=http://localhost:5000 -t moodcircle-client:latest ./client
