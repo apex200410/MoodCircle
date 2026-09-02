@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import "./Auth.css";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
@@ -10,6 +12,7 @@ function Login() {
   });
 
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,6 +25,8 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -32,51 +37,90 @@ function Login() {
       localStorage.setItem("token", response.data.token);
 
       setMessage("Login successful");
-
       navigate("/home");
     } catch (error) {
       setMessage(
         error.response?.data?.message || "Login failed"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="auth-page">
+      <div className="auth-card">
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
+        <div className="auth-brand">
+          <div className="brand-icon">☻</div>
+          <h1>MoodCircle</h1>
+          <p>Share your mood. Connect with your circle.</p>
+        </div>
 
-        <br />
-        <br />
+        <div className="auth-content">
+          <h2>Welcome Back</h2>
+          <p className="auth-subtitle">
+            Login to continue to your MoodCircle
+          </p>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
+          <form onSubmit={handleSubmit}>
 
-        <br />
-        <br />
+            <div className="input-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <button type="submit">Login</button>
-      </form>
+            <div className="input-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-      <p>{message}</p>
+            <button
+              className="auth-button"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
 
-      <p>
-        Don't have an account?{" "}
-        <Link to="/register">Register</Link>
-      </p>
+          {message && (
+            <p
+              className={
+                message === "Login successful"
+                  ? "success-message"
+                  : "error-message"
+              }
+            >
+              {message}
+            </p>
+          )}
+
+          <div className="auth-divider">
+            <span>OR</span>
+          </div>
+
+          <p className="auth-footer">
+            Don't have an account?{" "}
+            <Link to="/register">Create an account</Link>
+          </p>
+        </div>
+
+      </div>
     </div>
   );
 }

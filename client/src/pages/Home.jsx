@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Home.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -113,7 +114,11 @@ function Home() {
       setImage(null);
       setNote("");
 
-      document.getElementById("imageInput").value = "";
+      const imageInput = document.getElementById("imageInput");
+
+      if (imageInput) {
+        imageInput.value = "";
+      }
 
       // Refresh posts
       fetchMyPosts();
@@ -131,111 +136,200 @@ function Home() {
     navigate("/");
   };
 
+  // Copy public link
+  const handleCopyLink = (publicId) => {
+    const publicLink = `${window.location.origin}/view/${publicId}`;
+
+    navigator.clipboard
+      .writeText(publicLink)
+      .then(() => {
+        alert("Public link copied!");
+      })
+      .catch(() => {
+        alert("Failed to copy link.");
+      });
+  };
+
   return (
-    <div>
-      <h1>Welcome to MoodCircle</h1>
+    <div className="home-page">
 
-      <p>Share your moment</p>
+      {/* Header */}
+      <header className="home-header">
+        <div className="home-brand">
+          <div className="home-brand-icon">☻</div>
 
-      {/* Logout */}
-      <button onClick={handleLogout}>Logout</button>
-
-      <br />
-      <br />
-
-      {/* Upload Form */}
-      <h2>Create a MoodCircle Post</h2>
-
-      <form onSubmit={handleSubmit}>
-        {/* Image */}
-        <div>
-          <label>Select Image:</label>
-
-          <br />
-
-          <input
-            id="imageInput"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+          <div>
+            <h1>MoodCircle</h1>
+            <span>Share your moments</span>
+          </div>
         </div>
 
-        <br />
-
-        {/* Note */}
-        <div>
-          <label>Short Note:</label>
-
-          <br />
-
-          <textarea
-            placeholder="Write something..."
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            rows="5"
-            cols="40"
-          />
-        </div>
-
-        <br />
-
-        {/* Upload */}
-        <button type="submit" disabled={uploading}>
-          {uploading ? "Uploading..." : "Upload"}
+        <button
+          className="logout-button"
+          onClick={handleLogout}
+        >
+          Logout
         </button>
-      </form>
+      </header>
 
-      <hr />
+      {/* Main Content */}
+      <main className="home-container">
 
-      {/* User Posts */}
-      <h2>My Posts</h2>
+        {/* Welcome Section */}
+        <section className="welcome-section">
+          <h2>Welcome to MoodCircle 👋</h2>
 
-      {loadingPosts ? (
-        <p>Loading your posts...</p>
-      ) : posts.length === 0 ? (
-        <p>You haven't uploaded anything yet.</p>
-      ) : (
-        <div>
-          {posts.map((post) => (
-            <div key={post._id}>
-              <img
-                src={post.imageUrl}
-                alt="MoodCircle post"
-                width="300"
+          <p>
+            Capture a moment, add a note, and keep your memories
+            in one place.
+          </p>
+        </section>
+
+        {/* Create Post */}
+        <section className="create-card">
+          <div className="section-heading">
+            <h2>Create a MoodCircle Post</h2>
+
+            <p>
+              Share an image and a short note about your mood.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+
+            {/* Image Upload */}
+            <div className="home-input-group">
+              <label htmlFor="imageInput">
+                Select Image
+              </label>
+
+              <input
+                id="imageInput"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                required
               />
 
-              <p>{post.note}</p>
-
-              <small>
-                {new Date(post.createdAt).toLocaleString()}
-              </small>
-
-              <br />
-              <br />
-
-              <button
-                onClick={() => {
-                  const publicLink = `${window.location.origin}/view/${post.publicId}`;
-
-                  navigator.clipboard
-                    .writeText(publicLink)
-                    .then(() => {
-                      alert("Public link copied!");
-                    })
-                    .catch(() => {
-                      alert("Failed to copy link.");
-                    });
-                }}
-              >
-                Copy Link
-              </button>
-
-              <hr />
+              {image && (
+                <p className="selected-file">
+                  Selected: {image.name}
+                </p>
+              )}
             </div>
-          ))}
-        </div>
-      )}
+
+            {/* Note */}
+            <div className="home-input-group">
+              <label htmlFor="note">
+                Short Note
+              </label>
+
+              <textarea
+                id="note"
+                placeholder="How are you feeling today?"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                rows="5"
+                required
+              />
+            </div>
+
+            {/* Upload Button */}
+            <button
+              className="upload-button"
+              type="submit"
+              disabled={uploading}
+            >
+              {uploading ? "Uploading..." : "Upload Post"}
+            </button>
+
+          </form>
+        </section>
+
+        {/* Posts Section */}
+        <section className="posts-section">
+
+          <div className="section-heading">
+            <h2>My Posts</h2>
+
+            <p>
+              Your saved MoodCircle moments.
+            </p>
+          </div>
+
+          {loadingPosts ? (
+            <div className="empty-card">
+              <p>Loading your posts...</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="empty-card">
+              <div className="empty-icon">📷</div>
+
+              <h3>No posts yet</h3>
+
+              <p>
+                Upload your first image and create your
+                first MoodCircle moment.
+              </p>
+            </div>
+          ) : (
+            <div className="posts-grid">
+
+              {posts.map((post) => (
+                <article
+                  className="post-card"
+                  key={post._id}
+                >
+
+                  {/* Image */}
+                  <div className="post-image-wrapper">
+                    <img
+                      src={post.imageUrl}
+                      alt="MoodCircle post"
+                      className="post-image"
+                    />
+                  </div>
+
+                  {/* Post Content */}
+                  <div className="post-content">
+
+                    <p className="post-note">
+                      {post.note}
+                    </p>
+
+                    <p className="post-date">
+                      {new Date(
+                        post.createdAt
+                      ).toLocaleString()}
+                    </p>
+
+                    <button
+                      className="copy-link-button"
+                      onClick={() =>
+                        handleCopyLink(post.publicId)
+                      }
+                    >
+                      🔗 Copy Public Link
+                    </button>
+
+                  </div>
+                </article>
+              ))}
+
+            </div>
+          )}
+
+        </section>
+
+      </main>
+
+      {/* Footer */}
+      <footer className="home-footer">
+        <p>
+          MoodCircle &copy; {new Date().getFullYear()}
+        </p>
+      </footer>
+
     </div>
   );
 }

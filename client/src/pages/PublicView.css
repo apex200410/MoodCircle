@@ -1,0 +1,431 @@
+* {
+  box-sizing: border-box;
+}
+
+.public-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f7f3ff, #eef7ff);
+  font-family: Arial, sans-serif;
+  color: #28243d;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.public-header {
+  width: 100%;
+  padding: 18px 7%;
+  background: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+}
+
+.public-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.public-brand-icon {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+  background: #7c5cff;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.public-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #28243d;
+}
+
+.public-header span {
+  display: block;
+  margin-top: 3px;
+  color: #888;
+  font-size: 12px;
+}
+
+/* =========================
+   LOGIN HEADER BUTTON
+========================= */
+
+.header-login-button {
+  padding: 10px 20px;
+
+  border: 1px solid #7c5cff;
+  border-radius: 9px;
+
+  background: white;
+  color: #7c5cff;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.header-login-button:hover {
+  background: #7c5cff;
+  color: white;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.public-container {
+  width: 100%;
+  max-width: 850px;
+
+  margin: auto;
+  padding: 45px 20px;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.public-card {
+  background: white;
+  border-radius: 22px;
+
+  padding: 35px;
+
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.shared-heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.shared-label {
+  display: inline-block;
+
+  margin-bottom: 10px;
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  background: #f0ebff;
+  color: #7c5cff;
+
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+}
+
+.shared-heading h2 {
+  margin: 0 0 8px;
+
+  font-size: 27px;
+  color: #28243d;
+}
+
+.shared-heading p {
+  margin: 0;
+
+  color: #888;
+  font-size: 14px;
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+.shared-image-wrapper {
+  width: 100%;
+  max-height: 600px;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background: #f4f4f4;
+}
+
+.shared-image {
+  display: block;
+
+  width: 100%;
+  max-height: 600px;
+
+  object-fit: contain;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.shared-content {
+  padding-top: 25px;
+}
+
+/* =========================
+   NOTE
+========================= */
+
+.note-box {
+  padding: 20px;
+
+  border-radius: 14px;
+
+  background: #f8f7fc;
+  border: 1px solid #eee;
+
+  text-align: center;
+}
+
+.note-box p {
+  margin: 0;
+
+  color: #444;
+
+  font-size: 16px;
+  line-height: 1.6;
+
+  word-break: break-word;
+}
+
+/* =========================
+   DATE
+========================= */
+
+.shared-date {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 18px;
+
+  font-size: 12px;
+}
+
+.shared-date span {
+  color: #999;
+}
+
+.shared-date strong {
+  color: #666;
+  font-weight: 600;
+}
+
+/* =========================
+   FOOTER CONTENT
+========================= */
+
+.shared-footer {
+  margin-top: 30px;
+  padding-top: 25px;
+
+  border-top: 1px solid #eee;
+
+  text-align: center;
+}
+
+.shared-footer p {
+  margin: 0 0 15px;
+
+  color: #888;
+  font-size: 14px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.public-button {
+  display: inline-block;
+
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #7c5cff;
+  color: white;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.public-button:hover {
+  background: #6848e8;
+}
+
+/* =========================
+   STATUS CARD
+========================= */
+
+.status-card {
+  max-width: 500px;
+  margin: 80px auto;
+
+  text-align: center;
+}
+
+.status-card .public-brand {
+  margin-bottom: 30px;
+}
+
+.status-card .public-brand h1 {
+  margin: 10px 0 0;
+
+  font-size: 27px;
+}
+
+.loading-icon,
+.error-icon {
+  width: 55px;
+  height: 55px;
+
+  margin: 0 auto 18px;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 24px;
+}
+
+.loading-icon {
+  background: #f0ebff;
+}
+
+.error-icon {
+  background: #fff0f0;
+  color: #d64545;
+  font-weight: bold;
+}
+
+.status-card h2 {
+  margin: 0 0 8px;
+
+  font-size: 23px;
+}
+
+.status-card p {
+  margin: 0 0 25px;
+
+  color: #888;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.public-footer {
+  text-align: center;
+
+  padding: 25px;
+
+  color: #999;
+
+  font-size: 13px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 700px) {
+  .public-header {
+    padding: 15px 20px;
+  }
+
+  .public-container {
+    padding: 30px 15px;
+  }
+
+  .public-card {
+    padding: 25px 20px;
+    border-radius: 18px;
+  }
+
+  .shared-heading h2 {
+    font-size: 23px;
+  }
+
+  .shared-image-wrapper {
+    max-height: 500px;
+  }
+
+  .shared-image {
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .public-header h1 {
+    font-size: 20px;
+  }
+
+  .public-brand-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .public-header span {
+    font-size: 11px;
+  }
+
+  .header-login-button {
+    padding: 9px 14px;
+  }
+
+  .public-card {
+    padding: 20px 16px;
+  }
+
+  .shared-heading h2 {
+    font-size: 21px;
+  }
+
+  .note-box {
+    padding: 16px;
+  }
+
+  .note-box p {
+    font-size: 15px;
+  }
+
+  .shared-date {
+    flex-direction: column;
+    gap: 3px;
+  }
+}
