@@ -1,0 +1,52 @@
+name: MoodCircle CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/docker
+
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Run backend tests
+        working-directory: server
+        run: npm test
+
+      - name: Install frontend dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Run frontend lint
+        working-directory: client
+        run: npm run lint
+
+      - name: Build frontend
+        working-directory: client
+        run: npm run build
+
+      - name: Build backend Docker image
+        run: docker build -t moodcircle-server:latest ./server
+
+      - name: Build frontend Docker image
+        run: docker build --build-arg VITE_API_URL=http://localhost:5000 -t moodcircle-client:latest ./client

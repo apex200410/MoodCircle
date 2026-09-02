@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function PublicView() {
   const { publicId } = useParams();
@@ -12,7 +13,7 @@ function PublicView() {
     const fetchPublicPost = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/posts/public/${publicId}`
+          `${API_URL}/api/posts/public/${publicId}`
         );
 
         const data = await response.json();
