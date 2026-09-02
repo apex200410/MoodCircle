@@ -1,3 +1,4 @@
+// MoodCircle v1.1.0
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
